@@ -1,0 +1,22 @@
+<h2>Sign Up</h2>
+<form (ngSubmit)="signup()" #signupForm="ngForm">
+  <label>Email:</label>
+  <input type="email" name="email" [(ngModel)]="email" required>
+  <br>
+  <label>Password:</label>
+  <input type="password" name="password" [(ngModel)]="password" required>
+  <br>
+  <label>Confirm Password:</label>
+  <input type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required>
+  <br>
+  <label>User Type:</label>
+  <select name="userType" [(ngModel)]="userType">
+    <option value="Buyer">Buyer</option>
+    <option value="Seller">Seller</option>
+    <option value="Admin">Admin</option>
+  </select>
+  <br>
+  <button type="submit">Sign Up</button>
+  <div *ngIf="error" style="color:red;">{{ error }}</div>
+  <p>Already have an account? <a routerLink="/login">Login</a></p>
+</form>
