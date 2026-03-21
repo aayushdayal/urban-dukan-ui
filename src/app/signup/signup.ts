@@ -14,6 +14,10 @@ export class Signup {
   email = '';
   password = '';
   confirmPassword = '';
+  firstName = '';
+  lastName = '';
+  address = '';
+  phone = '';
   userType = 'Buyer';
   error = '';
 
@@ -24,7 +28,15 @@ export class Signup {
       this.error = 'Passwords do not match';
       return;
     }
-    this.userService.register({ email: this.email, password: this.password, userType: this.userType }).subscribe({
+    this.userService.register({
+      email: this.email,
+      password: this.password,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      address: this.address,
+      phone: this.phone,
+      role: this.userType
+    }).subscribe({
       next: (res) => {
         this.error = '';
         alert('Signup successful!');

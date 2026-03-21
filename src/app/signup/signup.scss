@@ -1,0 +1,138 @@
+// Color palette inspired by Material Design and modern SaaS
+$primary: #1976d2; // Blue 700
+$primary-light: #63a4ff; // Blue 400
+$accent: #26c6da; // Teal 400
+$background-gradient: linear-gradient(135deg, #e3f2fd 0%, #b2ebf2 100%);
+$error: #d32f2f;
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $background-gradient;
+
+  .auth-form {
+    background: #fff;
+    padding: 2.5rem 2rem;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(25, 118, 210, 0.10);
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    animation: fadeIn 0.7s;
+
+    h2 {
+      margin-bottom: 0.5rem;
+      color: $primary;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: row;
+      gap: 0.7rem;
+      width: 100%;
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 0.7rem;
+        border: 1px solid #e3e3e3;
+        border-radius: 6px;
+        font-size: 1rem;
+        background: #f7fbff;
+        transition: border 0.2s, box-shadow 0.2s;
+        box-sizing: border-box;
+        &:focus {
+          border: 1.5px solid $primary;
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.08);
+        }
+      }
+    }
+
+    .radio-group {
+      flex-direction: row;
+      align-items: center;
+      gap: 1.2rem;
+      label {
+        font-weight: 500;
+        margin-right: 0.5rem;
+      }
+      input[type="radio"] {
+        margin-right: 0.3rem;
+        accent-color: $primary;
+      }
+    }
+
+    button[type="submit"] {
+      background: linear-gradient(90deg, $primary 60%, $accent 100%);
+      color: #fff;
+      border: none;
+      padding: 0.9rem;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+
+      &:hover {
+        background: linear-gradient(90deg, $primary-light 60%, $accent 100%);
+        box-shadow: 0 4px 16px rgba(25, 118, 210, 0.13);
+      }
+    }
+
+    .error {
+      color: $error;
+      text-align: center;
+      font-size: 0.98rem;
+      margin-top: -0.5rem;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+    }
+
+    a {
+      color: $primary;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+      &:hover {
+        color: $accent;
+      }
+    }
+  }
+}
+
+// Responsive adjustments for smaller screens
+@media (max-width: 600px) {
+  .auth-container {
+    padding: 1rem;
+    .auth-form {
+      padding: 1.2rem 0.5rem;
+      max-width: 98vw;
+    }
+    .form-group {
+      flex-direction: column !important;
+      gap: 0.7rem;
+    }
+  }
+}
+
+// Subtle fade-in animation
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: translateY(0);}
+}

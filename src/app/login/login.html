@@ -1,12 +1,14 @@
-<h2>Login</h2>
-<form (ngSubmit)="login()" #loginForm="ngForm">
-  <label>Email:</label>
-  <input type="email" name="email" [(ngModel)]="email" required>
-  <br>
-  <label>Password:</label>
-  <input type="password" name="password" [(ngModel)]="password" required>
-  <br>
-  <button type="submit">Login</button>
-  <div *ngIf="error" style="color:red;">{{ error }}</div>
-  <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
-</form>
+<div class="auth-container">
+  <form class="auth-form" (ngSubmit)="login()" #loginForm="ngForm">
+    <h2>Login</h2>
+    <div class="form-group">
+      <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+      <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
+    </div>
+    <button type="submit">Login</button>
+    <div *ngIf="error" class="error">{{ error }}</div>
+    <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
+  </form>
+</div>

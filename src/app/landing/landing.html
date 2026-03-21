@@ -4,30 +4,9 @@
     <button [class.active]="!showLogin" (click)="showLogin = false">Sign Up</button>
   </div>
   <div *ngIf="showLogin">
-    <h2>Login</h2>
-    <form>
-      <label>Email:</label>
-      <input type="email" name="email" required>
-      <br>
-      <label>Password:</label>
-      <input type="password" name="password" required>
-      <br>
-      <button type="submit">Login</button>
-    </form>
+    <app-login></app-login>
   </div>
   <div *ngIf="!showLogin">
-    <h2>Sign Up</h2>
-    <form>
-      <label>Email:</label>
-      <input type="email" name="email" required>
-      <br>
-      <label>Password:</label>
-      <input type="password" name="password" required>
-      <br>
-      <label>Confirm Password:</label>
-      <input type="password" name="confirmPassword" required>
-      <br>
-      <button type="submit">Sign Up</button>
-    </form>
+    <app-signup></app-signup>
   </div>
 </div>
