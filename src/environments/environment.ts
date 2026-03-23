@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
- apiBase: '/api'
+ apiBase: 'https://ud-user-api.azurewebsites.net/api/auth'
 };
