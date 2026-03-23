@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -8,24 +8,30 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.scss',
+  styleUrls: ['./login.scss']
 })
 export class Login {
   email = '';
   password = '';
-  error = '';
+  success: string = '';
+  error: string = '';
 
   constructor(private userService: UserService) {}
 
   login() {
-    this.userService.login({ email: this.email, password: this.password }).subscribe({
+    this.success = '';
+    this.error = '';
+    const credentials = {
+      email: this.email,
+      password: this.password
+    };
+    this.userService.login(credentials).subscribe({
       next: (res) => {
-        // handle success (e.g., store user info, redirect)
-        this.error = '';
-        alert('Login successful!');
+        this.success = 'Login successful!';
+        // Optionally, redirect or store token here
       },
       error: (err) => {
-        this.error = err.error || 'Login failed';
+        this.error = err.error?.message || 'Login failed. Please check your credentials.';
       }
     });
   }

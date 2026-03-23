@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './signup.html',
-  styleUrl: './signup.scss',
+  styleUrls: ['./signup.scss']
 })
 export class Signup {
   email = '';
@@ -19,7 +19,8 @@ export class Signup {
   address = '';
   phone = '';
   userType = 'Buyer';
-  error = '';
+  success: string = '';
+  error: string = '';
 
   constructor(private userService: UserService) {}
 
@@ -28,7 +29,7 @@ export class Signup {
       this.error = 'Passwords do not match';
       return;
     }
-    this.userService.register({
+    const user = {
       email: this.email,
       password: this.password,
       firstName: this.firstName,
@@ -36,13 +37,13 @@ export class Signup {
       address: this.address,
       phone: this.phone,
       role: this.userType
-    }).subscribe({
+    };
+    this.userService.register(user).subscribe({
       next: (res) => {
-        this.error = '';
-        alert('Signup successful!');
+        this.success = 'Registration successful! You can now log in.';
       },
       error: (err) => {
-        this.error = err.error || 'Signup failed';
+        this.error = err.error?.message || (typeof(err?.error) === 'string' ? err.error : 'Registration failed. Please try again.');
       }
     });
   }

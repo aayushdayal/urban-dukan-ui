@@ -1,6 +1,9 @@
 <div class="auth-container">
   <form class="auth-form" (ngSubmit)="login()" #loginForm="ngForm">
     <h2>Login</h2>
+    <!-- Success and Error Messages -->
+    <div *ngIf="success" class="alert alert-success" role="alert">{{ success }}</div>
+    <div *ngIf="error" class="alert alert-danger" role="alert">{{ error }}</div>
     <div class="form-group">
       <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required>
     </div>
@@ -8,7 +11,6 @@
       <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
     </div>
     <button type="submit">Login</button>
-    <div *ngIf="error" class="error">{{ error }}</div>
     <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
   </form>
 </div>
