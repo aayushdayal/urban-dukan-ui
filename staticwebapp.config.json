@@ -2,7 +2,7 @@
   "routes": [
     {
       "route": "/api/*",
-      "rewrite": "https://ud-user-api.azurewebsites.net/api/*"
+      "rewrite": "https://ud-user-api.azurewebsites.net/*"
     }
   ],
   "navigationFallback": {
