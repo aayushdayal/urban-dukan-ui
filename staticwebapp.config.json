@@ -1,5 +1,17 @@
 {
+  "routes": [
+    {
+      "route": "/api/*",
+      "rewrite": "https://ud-user-api.azurewebsites.net/api/*"
+    }
+  ],
   "navigationFallback": {
-    "rewrite": "/index.html"
+    "rewrite": "/index.html",
+    "exclude": ["/api/*"]
+  },
+  "globalHeaders": {
+    "X-Frame-Options": "DENY",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
   }
 }
