@@ -1,13 +1,12 @@
 import { Routes } from '@angular/router';
 import { LandingComponent } from './landing/landing';
-
-// ...existing code...
 import { Login } from './login/login';
 import { Signup } from './signup/signup';
+import { ProductsComponent } from './products/products';
 
 export const routes: Routes = [
-  { path: '', component: LandingComponent },
+  { path: '', component: ProductsComponent },
   { path: 'login', component: Login },
   { path: 'signup', component: Signup },
-  // ...existing routes...
+  { path: 'products', component: ProductsComponent }
 ];

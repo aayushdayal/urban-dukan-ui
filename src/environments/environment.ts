@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
- apiBase: 'https://ud-user-api.azurewebsites.net/api/auth'
+  userApi: 'https://ud-user-api.azurewebsites.net/api/auth',
+  productsApi: 'https://ud-product-api-fkfffefahshndbbx.centralindia-01.azurewebsites.net/api/products'
 };
