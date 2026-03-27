@@ -10,7 +10,7 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   getProducts(limit: number, skip: number): Observable<ProductsResponse> {
-       this.apiUrl = 'https://localhost:7019/api/Products';
+    //   this.apiUrl = 'https://localhost:7019/api/Products';
     return this.http.get<ProductsResponse>(`${this.apiUrl}?limit=${limit}&skip=${skip}`);
   }
 
