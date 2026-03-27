@@ -2,23 +2,27 @@
   max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1rem;
+
   h2 {
     text-align: center;
     margin-bottom: 2rem;
     color: #1976d2;
     font-weight: 700;
   }
+
   .loading, .error {
     text-align: center;
     font-size: 1.2rem;
     margin: 2rem 0;
     color: #b71c1c;
   }
+
   .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     gap: 2rem;
   }
+
   .product-card {
     background: #fff;
     border-radius: 12px;
@@ -27,69 +31,85 @@
     display: flex;
     flex-direction: column;
     transition: transform 0.2s, box-shadow 0.2s;
+
     &:hover {
       transform: translateY(-6px) scale(1.03);
       box-shadow: 0 8px 32px rgba(25, 118, 210, 0.13);
     }
+
     .product-thumb {
       width: 100%;
       height: 180px;
       object-fit: cover;
       background: #f5f5f5;
     }
+
     .product-info {
       padding: 1rem;
+
       h3 {
         margin: 0 0 0.5rem 0;
         font-size: 1.2rem;
         color: #1976d2;
       }
+
       .desc {
         font-size: 0.98rem;
         color: #444;
         margin-bottom: 0.8rem;
         min-height: 48px;
       }
+
       .meta {
         font-size: 0.95rem;
         color: #666;
         margin-bottom: 0.5rem;
+
         .brand {
           margin-right: 1rem;
         }
       }
+
       .price-rating {
         display: flex;
         align-items: center;
         gap: 1rem;
         margin-bottom: 0.5rem;
+
         .price {
           font-size: 1.1rem;
           font-weight: 600;
           color: #26c6da;
         }
+
         .discount {
           color: #388e3c;
           font-weight: 500;
         }
+
         .rating {
           margin-left: auto;
           color: #ffa000;
           font-weight: 500;
         }
       }
+
       .stock {
         font-size: 0.95rem;
         color: #388e3c;
+
         &.out {
           color: #b71c1c;
         }
+
         margin-bottom: 0.5rem;
       }
+
       .images {
         display: flex;
         gap: 0.4rem;
         margin-top: 0.5rem;
+
         .product-img {
           width: 40px;
           height: 40px;

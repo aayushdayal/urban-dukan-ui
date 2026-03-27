@@ -1,0 +1,18 @@
+<div class="product-card" (click)="openProduct()">
+  <img [src]="product.thumbnail" [alt]="product.title" class="product-thumb" />
+  <div class="product-info">
+    <h3>{{ product.title }}</h3>
+    <p class="desc">{{ product.description }}</p>
+    <div class="price-rating">
+      <span class="price">₹{{ product.price | number:'1.2-2' }}</span>
+      <span class="discount" *ngIf="product.discountPercentage > 0">
+        ({{ product.discountPercentage }}% OFF)
+      </span>
+      <span class="rating">⭐ {{ product.rating }}</span>
+    </div>
+    <div class="product-actions">
+      <button (click)="addToCart.emit(product); $event.stopPropagation()" class="cart-btn">Add to Cart</button>
+      <button (click)="buyNow.emit(product); $event.stopPropagation()" class="buy-now">Buy Now</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(25, 118, 210, 0.13);
+  }
+
+  .product-thumb {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background: #f5f5f5;
+  }
+
+  .product-info {
+    padding: 1rem;
+
+    h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.2rem;
+      color: #1976d2;
+    }
+
+    .desc {
+      font-size: 0.98rem;
+      color: #444;
+      margin-bottom: 0.8rem;
+      min-height: 48px;
+    }
+
+    .meta {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+
+      .brand {
+        margin-right: 1rem;
+      }
+    }
+
+    .price-rating {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+
+      .price {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #26c6da;
+      }
+
+      .discount {
+        color: #388e3c;
+        font-weight: 500;
+      }
+
+      .rating {
+        margin-left: auto;
+        color: #ffa000;
+        font-weight: 500;
+      }
+    }
+
+    .stock {
+      font-size: 0.95rem;
+      color: #388e3c;
+      &.out {
+        color: #b71c1c;
+      }
+      margin-bottom: 0.5rem;
+    }
+
+    .images {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+
+      .product-img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #eee;
+      }
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 0.7rem;
+      margin-top: 1rem;
+
+      button {
+        flex: 1 1 0;
+        padding: 0.6rem 0.8rem;
+        border-radius: 6px;
+        border: none;
+        font-weight: 700;
+        font-size: 1rem;
+        background: linear-gradient(90deg, #1976d2 60%, #63a4ff 100%);
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+
+        &:hover {
+          background: linear-gradient(90deg, #125ea2 60%, #26c6da 100%);
+          transform: translateY(-2px) scale(1.04);
+          box-shadow: 0 4px 16px rgba(25, 118, 210, 0.13);
+        }
+
+        &.buy-now {
+          background: linear-gradient(90deg, #26c6da 60%, #1976d2 100%);
+          &:hover {
+            background: linear-gradient(90deg, #0097a7 60%, #125ea2 100%);
+          }
+        }
+      }
+    }
+  }
+}

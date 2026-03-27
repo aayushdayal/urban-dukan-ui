@@ -1,0 +1,28 @@
+<div *ngIf="error" class="error">{{ error }}</div>
+<div *ngIf="product" class="product-detail">
+  <button class="close-btn" (click)="closeDetail()" aria-label="Close">&times;</button>
+  <img [src]="product.thumbnail" [alt]="product.title" class="product-thumb" />
+  <div class="product-info">
+    <h2>{{ product.title }}</h2>
+    <p>{{ product.description }}</p>
+    <div class="meta">
+      <span>Brand: {{ product.brand || 'N/A' }}</span>
+      <span>Category: {{ product.category }}</span>
+    </div>
+    <div class="price-rating">
+      <span class="price">₹{{ product.price | number:'1.2-2' }}</span>
+      <span class="discount" *ngIf="product.discountPercentage > 0">
+        ({{ product.discountPercentage }}% OFF)
+      </span>
+      <span class="rating">⭐ {{ product.rating }}</span>
+    </div>
+    <div class="stock" [class.out]="product.stock === 0">
+      Stock: {{ product.stock }}
+    </div>
+    <div *ngIf="message" class="success">{{ message }}</div>
+    <div class="product-actions">
+      <button (click)="addToCart()" class="cart-btn">Add to Cart</button>
+      <button (click)="buyNow()" class="buy-now">Buy Now</button>
+    </div>
+  </div>
+</div>

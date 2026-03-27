@@ -1,13 +1,17 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ProductService } from '../services/product.service';
 import { Product, ProductsResponse } from '../models/product.model';
 import { CommonModule, DecimalPipe } from '@angular/common';
+import { CartService } from '../services/cart.service';
+import { Router } from '@angular/router';
+import { ProductCardComponent } from "./productCard/productcard";
 
 @Component({
   selector: 'app-products',
-  imports: [DecimalPipe, CommonModule],
+  imports: [ CommonModule, ProductCardComponent],
   templateUrl: './products.html',
-  styleUrls: ['./products.scss']
+  styleUrls: ['./products.scss'],
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
@@ -17,9 +21,13 @@ export class ProductsComponent implements OnInit {
   limit = 30;
   skip = 0;
   allLoaded = false;
+  scrollTargetId: string | null = null;
 
   constructor(
     private productService: ProductService,
+    private cartService: CartService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -36,14 +44,34 @@ export class ProductsComponent implements OnInit {
         this.skip += this.limit;
         this.loading = false;
         if (this.products.length >= this.total) this.allLoaded = true;
-        // After first load, use limit=10 for subsequent loads
         this.limit = 10;
+
+        // Restore scroll position if needed
+        const scroll = sessionStorage.getItem('productsScroll');
+        if (scroll) {
+          window.scrollTo({ top: +scroll, behavior: 'auto' });
+          sessionStorage.removeItem('productsScroll');
+        }
+
+        // FIX: Force Angular to update the view after async changes
+        this.cdr.detectChanges();
       },
       error: () => {
         this.error = 'Failed to load products.';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
+  }
+
+  onAddToCart(product: Product) {
+    this.cartService.addToCart(product);
+    // Optionally show a toast/snackbar
+  }
+
+  onBuyNow(product: Product) {
+    this.cartService.addToCart(product);
+    this.router.navigate(['/cart']);
   }
 
   @HostListener('window:scroll', [])

@@ -2,30 +2,13 @@
   <h2>Products ({{ total }})</h2>
   <div *ngIf="error" class="error">{{ error }}</div>
   <div class="products-grid">
-    <div class="product-card" *ngFor="let product of products">
-      <img [src]="product.thumbnail" [alt]="product.title" class="product-thumb" />
-      <div class="product-info">
-        <h3>{{ product.title }}</h3>
-        <p class="desc">{{ product.description }}</p>
-        <div class="meta">
-          <span class="brand" *ngIf="product.brand">Brand: {{ product.brand }}</span>
-          <span class="category">Category: {{ product.category }}</span>
-        </div>
-        <div class="price-rating">
-          <span class="price">₹{{ product.price | number:'1.2-2' }}</span>
-          <span class="discount" *ngIf="product.discountPercentage > 0">
-            ({{ product.discountPercentage }}% OFF)
-          </span>
-          <span class="rating">⭐ {{ product.rating }}</span>
-        </div>
-        <div class="stock" [ngClass]="{'out': product.stock === 0}">
-          Stock: {{ product.stock }}
-        </div>
-        <div class="images" *ngIf="product.images?.length">
-          <img *ngFor="let img of product.images" [src]="img.url" [alt]="product.title" class="product-img" />
-        </div>
-      </div>
-    </div>
+    <app-product-card
+      *ngFor="let product of products"
+      [product]="product"
+      (addToCart)="onAddToCart($event)"
+      (buyNow)="onBuyNow($event)"
+      [attr.id]="'product-' + product.id">
+    </app-product-card>
   </div>
   <div *ngIf="loading" class="loading">Loading more products...</div>
   <div *ngIf="allLoaded && !loading" class="end-message">All products loaded.</div>
