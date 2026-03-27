@@ -10,12 +10,5 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'signup', component: Signup },
   { path: 'products', component: ProductsComponent },
-  ({
-    path: 'products/:id',
-    component: ProductDetailComponent,
-    getPrerenderParams: async () => {
-      const ids = [1, 2, 3, 4, 5];
-      return ids.map(id => ({ id: id.toString() }));
-    }
-  } as any)
+  { path: 'products/:id', component: ProductDetailComponent }
 ];
