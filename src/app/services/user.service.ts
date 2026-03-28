@@ -8,7 +8,7 @@ import { User } from '../models/users.model';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = environment.userApi;
+  private apiUrl = environment.api_base;
 
   constructor(private http: HttpClient) {}
 
