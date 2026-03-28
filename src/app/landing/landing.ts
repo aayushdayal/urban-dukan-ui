@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Signup } from "../signup/signup";
-import { Login } from "../login/login";
+import { HeaderComponent } from "../header/header";
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, Signup, Login],
+  imports: [CommonModule, HeaderComponent],
   templateUrl: './landing.html',
   styleUrls: ['./landing.scss']
 })

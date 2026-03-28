@@ -1,12 +1,3 @@
 <div class="landing-container">
-  <div class="form-toggle">
-    <button [class.active]="showLogin" (click)="showLogin = true">Login</button>
-    <button [class.active]="!showLogin" (click)="showLogin = false">Sign Up</button>
-  </div>
-  <div *ngIf="showLogin">
-    <app-login></app-login>
-  </div>
-  <div *ngIf="!showLogin">
-    <app-signup></app-signup>
-  </div>
+  <app-header></app-header>
 </div>

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -21,8 +23,18 @@ export class Signup {
   userType = 'Buyer';
   success: string = '';
   error: string = '';
+  returnUrl: string = '/';
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.route.queryParams.subscribe(params => {
+      this.returnUrl = params['returnUrl'] || '/';
+    });
+  }
 
   signup() {
     if (this.password !== this.confirmPassword) {
@@ -40,7 +52,24 @@ export class Signup {
     };
     this.userService.register(user).subscribe({
       next: (res) => {
-        this.success = 'Registration successful! You can now log in.';
+        // If backend returns token, use it; else, call login
+        if (res.token && res.email && res.userId) {
+          this.auth.setSession(res.token, res.email, res.userId);
+          this.success = 'Registration successful!';
+          this.router.navigateByUrl(this.returnUrl);
+        } else {
+          // fallback: login after registration
+          this.userService.login({ email: this.email, password: this.password }).subscribe({
+            next: (loginRes) => {
+              this.auth.setSession(loginRes.token, loginRes.email, loginRes.userId);
+              this.success = 'Registration successful!';
+              this.router.navigateByUrl(this.returnUrl);
+            },
+            error: (err) => {
+              this.error = err.error?.message || 'Auto-login failed. Please try logging in.';
+            }
+          });
+        }
       },
       error: (err) => {
         this.error = err.error?.message || (typeof(err?.error) === 'string' ? err.error : 'Registration failed. Please try again.');

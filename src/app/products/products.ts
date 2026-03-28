@@ -6,6 +6,7 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { CartService } from '../services/cart.service';
 import { Router } from '@angular/router';
 import { ProductCardComponent } from "./productCard/productcard";
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-products',
@@ -27,7 +28,8 @@ export class ProductsComponent implements OnInit {
     private productService: ProductService,
     private cartService: CartService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -65,11 +67,19 @@ export class ProductsComponent implements OnInit {
   }
 
   onAddToCart(product: Product) {
+    if (!this.auth.isLoggedIn()) {
+    this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
+    return;
+  }
     this.cartService.addToCart(product);
     // Optionally show a toast/snackbar
   }
 
   onBuyNow(product: Product) {
+      if (!this.auth.isLoggedIn()) {
+    this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
+    return;
+  }
     this.cartService.addToCart(product);
     this.router.navigate(['/cart']);
   }

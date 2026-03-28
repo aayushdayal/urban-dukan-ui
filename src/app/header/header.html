@@ -1,0 +1,13 @@
+<nav class="navbar">
+  <a routerLink="/" class="logo">Urban Dukan</a>
+  <div class="nav-links">
+    <ng-container *ngIf="!auth.isLoggedIn(); else loggedIn">
+      <a routerLink="/login">Login</a>
+      <a routerLink="/signup">Sign Up</a>
+    </ng-container>
+    <ng-template #loggedIn>
+      <span class="user-email">{{ auth.getUserEmail() }}</span>
+      <button (click)="logout()">Logout</button>
+    </ng-template>
+  </div>
+</nav>
