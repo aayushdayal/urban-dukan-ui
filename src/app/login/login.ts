@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -13,6 +13,9 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./login.scss']
 })
 export class Login {
+  @Input() closeModal?: () => void;
+  @Input() openSignup?: () => void;
+
   email = '';
   password = '';
   success: string = '';
@@ -45,5 +48,10 @@ export class Login {
         this.error = err.error?.message || 'Login failed. Please check your credentials.';
       }
     });
+  }
+
+  showSignup() {
+    if (this.closeModal) this.closeModal();
+    if (this.openSignup) this.openSignup();
   }
 }

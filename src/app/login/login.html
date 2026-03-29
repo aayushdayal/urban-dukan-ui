@@ -1,4 +1,5 @@
-<div class="auth-container">
+<div class="modal-popup">
+  <button type="button" class="modal-close" (click)="$event.stopPropagation(); closeModal && closeModal()">&times;</button>
   <form class="auth-form" (ngSubmit)="login()" #loginForm="ngForm">
     <h2>Login</h2>
     <!-- Success and Error Messages -->
@@ -11,6 +12,8 @@
       <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
     </div>
     <button type="submit">Login</button>
-    <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
+    <div class="signup-link">
+      New here? <a (click)="showSignup()">Sign up</a>
+    </div>
   </form>
 </div>

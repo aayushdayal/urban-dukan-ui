@@ -139,6 +139,61 @@ $error: #d32f2f;
   }
 }
 
+.modal-popup {
+  background: linear-gradient(135deg, #e3f2fd 0%, #b2ebf2 100%);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.18);
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-width: 340px;
+  max-width: 95vw;
+  position: relative;
+  animation: fadeIn 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+   max-height: calc(100vh - 160px); /* leaves room for header + footer */
+  overflow: auto;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+}
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1.5px solid #b3c6e7;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #f7fbff;
+  transition: border 0.2s, box-shadow 0.2s;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+.auth-form input[type="text"]:focus,
+.auth-form input[type="email"]:focus,
+.auth-form input[type="password"]:focus {
+  border: 1.5px solid #1976d2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.10);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #1976d2;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.2s;
+}
+.modal-close:hover {
+  color: #d32f2f;
+}
+
 // Responsive adjustments for smaller screens
 @media (max-width: 600px) {
   .auth-container {
@@ -152,10 +207,36 @@ $error: #d32f2f;
       gap: 0.7rem;
     }
   }
+  .modal-popup {
+    min-width: 90vw;
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+  }
 }
 
 // Subtle fade-in animation
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px);}
+  from { opacity: 0; transform: translateY(-10px);}
   to { opacity: 1; transform: translateY(0);}
+}
+
+.signup-link {
+  text-align: center;
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  color: #072a5f;
+}
+.signup-link a {
+  color: #0b3d91;
+  text-decoration: underline;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.signup-link a:hover {
+  color: #06326b;
+}
+
+.modal-popup .alert,
+.modal-popup .signup-link {
+  z-index: 3;
 }

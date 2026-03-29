@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -13,6 +13,9 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./signup.scss']
 })
 export class Signup {
+  @Input() closeModal?: () => void;
+  @Input() openLogin?: () => void;
+
   email = '';
   password = '';
   confirmPassword = '';
@@ -75,5 +78,10 @@ export class Signup {
         this.error = err.error?.message || (typeof(err?.error) === 'string' ? err.error : 'Registration failed. Please try again.');
       }
     });
+  }
+
+   showLogin() {
+    if (this.closeModal) this.closeModal();
+    if (this.openLogin) this.openLogin();
   }
 }

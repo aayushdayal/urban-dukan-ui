@@ -1,0 +1,35 @@
+.footer {
+  width: 100%;
+  background: linear-gradient(90deg, #1976d2 0%, #63a4ff 100%);
+  color: #fff;
+  padding: 1.2rem 0 1rem 0;
+  text-align: center;
+  font-size: 1.1rem;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 0.5px;
+  box-shadow: 0 -2px 12px rgba(25, 118, 210, 0.08);
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  .footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    .footer-symbol {
+      font-size: 1.2em;
+      margin: 0 0.2em;
+      color: #ffe082;
+      font-weight: bold;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .footer {
+    font-size: 0.98rem;
+    padding: 1rem 0 0.8rem 0;
+  }
+}
