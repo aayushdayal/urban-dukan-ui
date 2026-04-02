@@ -5,22 +5,17 @@
     <p class="desc">{{ product.description }}</p>
     <div class="price-rating">
       <span class="price">₹{{ product.price | number:'1.2-2' }}</span>
-      <span class="discount" *ngIf="product.discountPercentage > 0">
-        ({{ product.discountPercentage }}% OFF)
-      </span>
-      <span class="rating">⭐ {{ product.rating }}</span>
     </div>
 
-    <!-- Compact quantity control -->
     <div class="qty-control" (click)="$event.stopPropagation()">
       <button class="qty-btn" (click)="decQty($event)" aria-label="Decrease">−</button>
       <div class="qty-display">{{ qty }}</div>
       <button class="qty-btn" (click)="incQty($event)" aria-label="Increase">+</button>
     </div>
 
-    <div class="product-actions">
-      <button (click)="onAddToCart($event)" class="cart-btn">Add to Cart</button>
-      <button (click)="onBuyNow($event)" class="buy-now">Buy Now</button>
+    <div class="product-actions" (click)="$event.stopPropagation()">
+      <button class="cart-btn" (click)="onAddToCart($event)">Add to Cart</button>
+      <button class="buy-now" (click)="onBuyNow($event)">Buy Now</button>
     </div>
   </div>
 </div>

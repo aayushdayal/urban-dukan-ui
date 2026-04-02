@@ -1,0 +1,42 @@
+<div class="place-order">
+  <button class="close-btn" (click)="close()" aria-label="Close">&times;</button>
+
+  <h2>Checkout</h2>
+
+  <div class="items" *ngIf="items.length">
+    <div class="item" *ngFor="let it of items">
+      <img [src]="it.product.thumbnail" [alt]="it.product.title" class="thumb"/>
+      <div class="meta">
+        <div class="title">{{ it.product.title }}</div>
+        <div class="qty">Qty: {{ it.quantity }}</div>
+      </div>
+      <div class="price">₹{{ (it.product.price * it.quantity) | number:'1.2-2' }}</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="total">Total: <strong>₹{{ getTotal() | number:'1.2-2' }}</strong></div>
+  </div>
+
+  <form class="ship-form" (ngSubmit)="placeOrder()">
+    <h3>Ship to</h3>
+    <label>
+      Name
+      <input [(ngModel)]="name" name="name" required />
+    </label>
+    <label>
+      Address
+      <textarea rows="3" [(ngModel)]="address" name="address" required></textarea>
+    </label>
+    <label>
+      Phone
+      <input [(ngModel)]="phone" name="phone" />
+    </label>
+
+    <div class="actions">
+      <button type="button" class="cancel" (click)="close()">Close</button>
+      <button type="submit" class="place" [disabled]="placing">{{ placing ? 'Placing...' : 'Place Order' }}</button>
+    </div>
+    <div class="msg" *ngIf="message">{{ message }}</div>
+  </form>
+</div>

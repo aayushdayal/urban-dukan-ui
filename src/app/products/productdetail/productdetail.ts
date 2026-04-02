@@ -6,6 +6,7 @@ import { CartService } from '../../services/cart.service';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { AuthModalService } from '../../services/auth-modal.service';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -26,6 +27,7 @@ export class ProductDetailComponent implements OnInit {
     private router: Router,
     private auth: AuthService,
     private authModal: AuthModalService,
+    private orderService: OrderService,
     private cdr: ChangeDetectorRef // <-- add this
   ) {}
 
@@ -79,9 +81,9 @@ export class ProductDetailComponent implements OnInit {
         this.authModal.openLogin(this.router.url);
         return;
       }
-
-      this.cartService.addToCart(this.product, this.qty);
-      this.router.navigate(['/cart']);
+      // open place order for only this product
+      this.orderService.setItems([{ product: this.product, quantity: this.qty }]);
+      this.router.navigate(['/place-order']);
     }
   }
 

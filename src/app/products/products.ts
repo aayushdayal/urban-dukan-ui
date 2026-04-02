@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ProductCardComponent } from "./productCard/productcard";
 import { AuthService } from '../services/auth.service';
 import { AuthModalService } from '../services/auth-modal.service'; // added
+import { OrderService } from '../services/order.service';
 
 @Component({
   selector: 'app-products',
@@ -31,7 +32,8 @@ export class ProductsComponent implements OnInit {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private auth: AuthService,
-    private authModal: AuthModalService // added
+    private authModal: AuthModalService, // added
+    private orderService: OrderService
   ) {}
 
   ngOnInit() {
@@ -81,13 +83,12 @@ export class ProductsComponent implements OnInit {
 
   onBuyNow(payload: { product: Product; quantity: number }) {
     if (!this.auth.isLoggedIn()) {
-      // open login modal (same shared modal used by header)
       this.authModal.openLogin(this.router.url);
       return;
     }
-    // user is logged in -> add to cart and go to checkout/cart
-    this.cartService.addToCart(payload.product, payload.quantity);
-    this.router.navigate(['/cart']);
+    // open place order for this single product
+    this.orderService.setItems([{ product: payload.product, quantity: payload.quantity }]);
+    this.router.navigate(['/place-order']);
   }
 
   @HostListener('window:scroll', [])

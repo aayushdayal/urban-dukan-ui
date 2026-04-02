@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CartService, CartItem } from '../services/cart.service';
 import { AuthService } from '../services/auth.service';
 import { AuthModalService } from '../services/auth-modal.service';
+import { OrderService } from '../services/order.service';
 
 @Component({
   selector: 'app-cart',
@@ -19,7 +20,8 @@ export class CartComponent implements OnInit {
     private cartService: CartService,
     private auth: AuthService,
     private authModal: AuthModalService,
-    private router: Router
+    private router: Router,
+    private orderService: OrderService
   ) {}
 
   ngOnInit() {
@@ -62,7 +64,10 @@ export class CartComponent implements OnInit {
       setTimeout(() => this.message = '', 1600);
       return;
     }
-    this.router.navigate(['/checkout']);
+
+    // open place-order with all cart items
+    this.orderService.setItems(this.items);
+    this.router.navigate(['/place-order']);
   }
 
   getTotal() {
