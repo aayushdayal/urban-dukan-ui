@@ -67,8 +67,8 @@ export class ProductDetailComponent implements OnInit {
       }
 
       this.cartService.addToCart(this.product, this.qty);
-      this.message = 'Added to cart!';
-      setTimeout(() => this.message = '', 2000);
+      // navigate to cart page for logged-in user
+      this.router.navigate(['/cart']);
       this.qty = 1;
     }
   }

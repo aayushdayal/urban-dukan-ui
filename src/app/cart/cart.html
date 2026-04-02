@@ -1,0 +1,39 @@
+<div class="cart-container">
+  <!-- Close icon follows app design (same placement used in product detail) -->
+  <button class="close-btn" (click)="closeCart()" aria-label="Close">&times;</button>
+
+  <h2>Your Cart ({{ items.length }})</h2>
+
+  <div *ngIf="message" class="alert">{{ message }}</div>
+
+  <div *ngIf="!items.length" class="empty">Your cart is empty.</div>
+
+  <ul class="cart-list" *ngIf="items.length">
+    <li *ngFor="let it of items" class="cart-item">
+      <img [src]="it.product.thumbnail" [alt]="it.product.title" class="thumb" />
+      <div class="meta">
+        <div class="title">{{ it.product.title }}</div>
+        <div class="price">₹{{ it.product.price | number:'1.2-2' }}</div>
+      </div>
+
+      <div class="controls">
+        <div class="qty-control" >
+          <button class="qty-btn" (click)="dec(it)">−</button>
+          <div class="qty-display">{{ it.quantity }}</div>
+          <button class="qty-btn" (click)="inc(it)">+</button>
+        </div>
+        <button class="delete-btn" (click)="remove(it)" aria-label="Remove">Delete</button>
+      </div>
+
+      <div class="subtotal">₹{{ (it.product.price * it.quantity) | number:'1.2-2' }}</div>
+    </li>
+  </ul>
+
+  <div class="cart-footer" *ngIf="items.length">
+    <div class="total">Total: <strong>₹{{ getTotal() | number:'1.2-2' }}</strong></div>
+    <div class="actions">
+      <button class="update-btn" (click)="updateCart()">Update Cart</button>
+      <button class="buy-btn" (click)="buyNow()">Buy Now</button>
+    </div>
+  </div>
+</div>

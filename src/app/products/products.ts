@@ -75,6 +75,8 @@ export class ProductsComponent implements OnInit {
       return;
     }
     this.cartService.addToCart(payload.product, payload.quantity);
+    // open cart page after adding
+    this.router.navigate(['/cart']);
   }
 
   onBuyNow(payload: { product: Product; quantity: number }) {
