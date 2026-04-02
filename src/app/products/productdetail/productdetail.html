@@ -20,6 +20,14 @@
       Stock: {{ product.stock }}
     </div>
     <div *ngIf="message" class="success">{{ message }}</div>
+
+    <!-- Qty control placed above actions -->
+    <div class="qty-control-detail">
+      <button (click)="decQty()" aria-label="Decrease">−</button>
+      <div class="qty-display">{{ qty }}</div>
+      <button (click)="incQty()" aria-label="Increase">+</button>
+    </div>
+
     <div class="product-actions">
       <button (click)="addToCart()" class="cart-btn">Add to Cart</button>
       <button (click)="buyNow()" class="buy-now">Buy Now</button>

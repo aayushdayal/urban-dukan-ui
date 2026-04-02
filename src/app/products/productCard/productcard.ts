@@ -11,13 +11,36 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 })
 export class ProductCardComponent {
   @Input() product!: Product;
-  @Output() addToCart = new EventEmitter<Product>();
-  @Output() buyNow = new EventEmitter<Product>();
+  @Output() addToCart = new EventEmitter<{ product: Product; quantity: number }>();
+  @Output() buyNow = new EventEmitter<{ product: Product; quantity: number }>();
+
+  qty = 1;
 
   constructor(private router: Router) {}
 
   openProduct() {
     sessionStorage.setItem('productsScroll', window.scrollY.toString());
     this.router.navigate(['/products', this.product.id]);
+  }
+
+  incQty(event?: Event) {
+    event?.stopPropagation();
+    this.qty++;
+  }
+
+  decQty(event?: Event) {
+    event?.stopPropagation();
+    if (this.qty > 1) this.qty--;
+  }
+
+  onAddToCart(event?: Event) {
+    event?.stopPropagation();
+    this.addToCart.emit({ product: this.product, quantity: this.qty });
+    this.qty = 1; // reset to 1 after action (optional UX)
+  }
+
+  onBuyNow(event?: Event) {
+    event?.stopPropagation();
+    this.buyNow.emit({ product: this.product, quantity: this.qty });
   }
 }

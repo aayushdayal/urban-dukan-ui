@@ -24,6 +24,40 @@
     display: flex;
     flex-direction: column;
 
+    .qty-control-detail {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+      background: #f3f8ff;
+      padding: 0.35rem;
+      border-radius: 8px;
+      width: fit-content;
+
+      button {
+        background: transparent;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        color: #1976d2;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      button:hover {
+        background: rgba(25, 118, 210, 0.06);
+      }
+      .qty-display {
+        min-width: 34px;
+        text-align: center;
+        font-weight: 700;
+        color: #0b3d91;
+      }
+    }
+
     h2 {
       margin-bottom: 1rem;
       color: #1976d2;

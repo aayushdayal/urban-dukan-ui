@@ -68,23 +68,23 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  onAddToCart(product: Product) {
+  onAddToCart(payload: { product: Product; quantity: number }) {
     if (!this.auth.isLoggedIn()) {
       // open the shared header modal and pass returnUrl so login can redirect back here
       this.authModal.openLogin(this.router.url);
       return;
     }
-    this.cartService.addToCart(product);
+    this.cartService.addToCart(payload.product, payload.quantity);
   }
 
-  onBuyNow(product: Product) {
+  onBuyNow(payload: { product: Product; quantity: number }) {
     if (!this.auth.isLoggedIn()) {
       // open login modal (same shared modal used by header)
       this.authModal.openLogin(this.router.url);
       return;
     }
     // user is logged in -> add to cart and go to checkout/cart
-    this.cartService.addToCart(product);
+    this.cartService.addToCart(payload.product, payload.quantity);
     this.router.navigate(['/cart']);
   }
 

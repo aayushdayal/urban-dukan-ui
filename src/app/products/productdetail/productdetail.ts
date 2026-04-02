@@ -17,6 +17,7 @@ export class ProductDetailComponent implements OnInit {
   product?: Product;
   error = '';
   message = '';
+  qty = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +50,14 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
+  incQty() {
+    this.qty++;
+  }
+
+  decQty() {
+    if (this.qty > 1) this.qty--;
+  }
+
   addToCart() {
     if (this.product) {
       if (!this.auth.isLoggedIn()) {
@@ -57,9 +66,10 @@ export class ProductDetailComponent implements OnInit {
         return;
       }
 
-      this.cartService.addToCart(this.product);
+      this.cartService.addToCart(this.product, this.qty);
       this.message = 'Added to cart!';
       setTimeout(() => this.message = '', 2000);
+      this.qty = 1;
     }
   }
 
@@ -70,7 +80,7 @@ export class ProductDetailComponent implements OnInit {
         return;
       }
 
-      this.cartService.addToCart(this.product);
+      this.cartService.addToCart(this.product, this.qty);
       this.router.navigate(['/cart']);
     }
   }

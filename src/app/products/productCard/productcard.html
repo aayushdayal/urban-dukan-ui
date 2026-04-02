@@ -10,9 +10,17 @@
       </span>
       <span class="rating">⭐ {{ product.rating }}</span>
     </div>
+
+    <!-- Compact quantity control -->
+    <div class="qty-control" (click)="$event.stopPropagation()">
+      <button class="qty-btn" (click)="decQty($event)" aria-label="Decrease">−</button>
+      <div class="qty-display">{{ qty }}</div>
+      <button class="qty-btn" (click)="incQty($event)" aria-label="Increase">+</button>
+    </div>
+
     <div class="product-actions">
-      <button (click)="addToCart.emit(product); $event.stopPropagation()" class="cart-btn">Add to Cart</button>
-      <button (click)="buyNow.emit(product); $event.stopPropagation()" class="buy-now">Buy Now</button>
+      <button (click)="onAddToCart($event)" class="cart-btn">Add to Cart</button>
+      <button (click)="onBuyNow($event)" class="buy-now">Buy Now</button>
     </div>
   </div>
 </div>
