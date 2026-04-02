@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthModalService } from '../services/auth-modal.service';
 
 @Component({
   selector: 'app-login',
@@ -26,11 +27,17 @@ export class Login {
     private userService: UserService,
     private auth: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modal: AuthModalService
   ) {
     this.route.queryParams.subscribe(params => {
-      this.returnUrl = params['returnUrl'] || '/';
+      this.returnUrl = params['returnUrl'] || this.returnUrl;
     });
+
+    // fallback: if opened via modal service, use its returnUrl
+    if (this.modal.returnUrl) {
+      this.returnUrl = this.modal.returnUrl;
+    }
   }
 
   login() {
@@ -39,9 +46,10 @@ export class Login {
     const credentials = { email: this.email, password: this.password };
     this.userService.login(credentials).subscribe({
       next: (res) => {
-        // Assume res contains { token, email, userId }
         this.auth.setSession(res.token, res.email, res.userId);
         this.success = 'Login successful!';
+        // close modal if opened via service
+        this.modal.close();
         this.router.navigateByUrl(this.returnUrl);
       },
       error: (err) => {

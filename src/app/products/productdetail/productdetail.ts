@@ -4,6 +4,8 @@ import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { CommonModule, DecimalPipe } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { AuthModalService } from '../../services/auth-modal.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -21,6 +23,8 @@ export class ProductDetailComponent implements OnInit {
     private productService: ProductService,
     private cartService: CartService,
     private router: Router,
+    private auth: AuthService,
+    private authModal: AuthModalService,
     private cdr: ChangeDetectorRef // <-- add this
   ) {}
 
@@ -47,6 +51,12 @@ export class ProductDetailComponent implements OnInit {
 
   addToCart() {
     if (this.product) {
+      if (!this.auth.isLoggedIn()) {
+        // open shared login modal and pass current url as returnUrl
+        this.authModal.openLogin(this.router.url);
+        return;
+      }
+
       this.cartService.addToCart(this.product);
       this.message = 'Added to cart!';
       setTimeout(() => this.message = '', 2000);
@@ -55,6 +65,11 @@ export class ProductDetailComponent implements OnInit {
 
   buyNow() {
     if (this.product) {
+      if (!this.auth.isLoggedIn()) {
+        this.authModal.openLogin(this.router.url);
+        return;
+      }
+
       this.cartService.addToCart(this.product);
       this.router.navigate(['/cart']);
     }

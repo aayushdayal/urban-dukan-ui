@@ -7,6 +7,7 @@ import { CartService } from '../services/cart.service';
 import { Router } from '@angular/router';
 import { ProductCardComponent } from "./productCard/productcard";
 import { AuthService } from '../services/auth.service';
+import { AuthModalService } from '../services/auth-modal.service'; // added
 
 @Component({
   selector: 'app-products',
@@ -29,7 +30,8 @@ export class ProductsComponent implements OnInit {
     private cartService: CartService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private auth: AuthService
+    private auth: AuthService,
+    private authModal: AuthModalService // added
   ) {}
 
   ngOnInit() {
@@ -68,18 +70,20 @@ export class ProductsComponent implements OnInit {
 
   onAddToCart(product: Product) {
     if (!this.auth.isLoggedIn()) {
-    this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
-    return;
-  }
+      // open the shared header modal and pass returnUrl so login can redirect back here
+      this.authModal.openLogin(this.router.url);
+      return;
+    }
     this.cartService.addToCart(product);
-    // Optionally show a toast/snackbar
   }
 
   onBuyNow(product: Product) {
-      if (!this.auth.isLoggedIn()) {
-    this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
-    return;
-  }
+    if (!this.auth.isLoggedIn()) {
+      // open login modal (same shared modal used by header)
+      this.authModal.openLogin(this.router.url);
+      return;
+    }
+    // user is logged in -> add to cart and go to checkout/cart
     this.cartService.addToCart(product);
     this.router.navigate(['/cart']);
   }

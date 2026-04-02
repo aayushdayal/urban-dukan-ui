@@ -21,18 +21,18 @@
   <!-- Login Modal -->
   <div class="modal-overlay" *ngIf="showLoginModal" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
-      <app-login 
-        [closeModal]="closeModal.bind(this)" 
-        [openSignup]="openSignup.bind(this)">
+      <app-login
+        [closeModal]="closeModal"
+        [openSignup]="openSignup">
       </app-login>
     </div>
   </div>
   <!-- Signup Modal -->
   <div class="modal-overlay" *ngIf="showSignupModal" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
-     <app-signup 
-        [closeModal]="closeModal.bind(this)" 
-        [openLogin]="openLogin.bind(this)">
+      <app-signup
+        [closeModal]="closeModal"
+        [openLogin]="openLogin">
       </app-signup>
     </div>
   </div>
