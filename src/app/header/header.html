@@ -2,18 +2,22 @@
   <div class="nav-left">
     <a routerLink="/" class="logo">Urban Dukan</a>
   </div>
+
+  <!-- center: search bar -->
+  <div class="nav-center">
+    <app-search></app-search>
+  </div>
+
   <div class="nav-right">
     <ng-container *ngIf="!auth.isLoggedIn(); else loggedIn">
       <button class="nav-btn" (click)="openLogin()">Login</button>
       <button class="nav-btn" (click)="openSignup()">Sign Up</button>
     </ng-container>
+
     <ng-template #loggedIn>
-      <div class="user-dropdown" (mouseenter)="showDropdown=true" (mouseleave)="showDropdown=false">
-        <span class="user-name">{{ auth.getUserEmail() || 'User' }}</span>
-        <span class="dropdown-arrow">▼</span>
-        <div class="dropdown-menu" *ngIf="showDropdown">
-          <button (click)="logout()">Logout</button>
-        </div>
+      <div class="user-area" title="{{ auth.getUserEmail() }}">
+        <span class="user-email">{{ auth.getUserEmail() }}</span>
+        <button class="nav-btn logout-btn" (click)="logout()" aria-label="Logout">Logout</button>
       </div>
     </ng-template>
   </div>
@@ -22,17 +26,18 @@
   <div class="modal-overlay" *ngIf="showLoginModal" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <app-login
-        [closeModal]="closeModal"
-        [openSignup]="openSignup">
+        [closeModal]="closeModalFn"
+        [openSignup]="openSignupFromLogin">
       </app-login>
     </div>
   </div>
+
   <!-- Signup Modal -->
   <div class="modal-overlay" *ngIf="showSignupModal" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <app-signup
-        [closeModal]="closeModal"
-        [openLogin]="openLogin">
+        [closeModal]="closeModalFn"
+        [openLogin]="openLoginFromSignup">
       </app-signup>
     </div>
   </div>

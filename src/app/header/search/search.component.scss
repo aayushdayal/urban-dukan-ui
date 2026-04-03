@@ -1,0 +1,105 @@
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 1rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 28px;
+  padding: 6px 8px;
+  box-shadow: 0 6px 18px rgba(2,24,71,0.06);
+  border: 1px solid rgba(25,118,210,0.06);
+  position: relative;
+  overflow: visible;
+}
+
+.search-input {
+  flex: 1 1 auto;
+  border: none;
+  outline: none;
+  padding: 10px 12px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  background: transparent;
+  color: #0b3d91;
+}
+
+.search-btn {
+  background: linear-gradient(90deg,#1976d2,#63a4ff);
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  margin-left: 6px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height: 36px;
+}
+.search-btn .icon { fill: #fff; }
+
+.clear-btn {
+  position: absolute;
+  right: 56px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.loading-spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,0.08);
+  border-top-color: #1976d2;
+  animation: spin 0.9s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.suggestions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(2,24,71,0.08);
+  list-style: none;
+  padding: 6px 6px;
+  max-height: 320px;
+  overflow: auto;
+  z-index: 300;
+}
+
+.suggestion {
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #0b3d91;
+  font-size: 0.95rem;
+  display: block;
+}
+.suggestion:hover,
+.suggestion.selected {
+  background: linear-gradient(90deg, rgba(25,118,210,0.06), rgba(99,164,255,0.04));
+}
+.suggestion mark {
+  background: #ffeaa7;
+  color: #0b3d91;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+@media (max-width: 800px) {
+  .search-wrapper { max-width: 420px; margin: 0 0.5rem; }
+  .search-btn { padding: 6px 10px; height: 32px; }
+}

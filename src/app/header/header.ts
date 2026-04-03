@@ -1,42 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthModalService } from '../services/auth-modal.service';
+import { SearchComponent } from './search/search.component';
 import { Login } from '../login/login';
 import { Signup } from '../signup/signup';
-import { AuthModalService } from '../services/auth-modal.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, Login, Signup],
+  imports: [CommonModule, Login, Signup, SearchComponent, RouterModule],
   templateUrl: './header.html',
   styleUrls: ['./header.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
   showDropdown = false;
   showLoginModal = false;
   showSignupModal = false;
-  constructor(public auth: AuthService, private router: Router, private modal: AuthModalService) {
-    // subscribe to service so other components can open the modal
-    this.modal.open$.subscribe(mode => {
-      this.showLoginModal = mode === 'login';
-      this.showSignupModal = mode === 'signup';
+  private modalSub: Subscription | null = null;
+
+  // expose auth to template; inject router for navigation
+  constructor(public auth: AuthService, private router: Router, private authModal: AuthModalService) {
+    // subscribe to central modal service so any component can open login/signup
+    this.modalSub = this.authModal.open$.subscribe((type) => {
+      this.showLoginModal = type === 'login';
+      this.showSignupModal = type === 'signup';
     });
   }
 
-  openLogin() {
-    // keep existing behavior for header button
-    this.modal.openLogin();
-  }
-  openSignup() {
-    this.modal.openSignup();
-  }
+  // functions used by template (keep them for direct header clicks)
+  openLogin() { this.authModal.openLogin(); }
+  openSignup() { this.authModal.openSignup(); }
+
+  // close via service so subscriptions remain consistent
   closeModal() {
-    this.modal.close();
+    this.showLoginModal = false;
+    this.showSignupModal = false;
+    this.authModal.close();
   }
+
+  // helpers passed into child modal components
+  closeModalFn = () => this.closeModal();
+  openSignupFromLogin = () => this.authModal.openSignup();
+  openLoginFromSignup = () => this.authModal.openLogin();
+
   logout() {
-    this.auth.logout();
+    try { localStorage.removeItem('token'); } catch { /* ignore */ }
+    if ((this.auth as any).logout) { (this.auth as any).logout(); }
     this.router.navigate(['/']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.modalSub) { this.modalSub.unsubscribe(); this.modalSub = null; }
   }
 }
