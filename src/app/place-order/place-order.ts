@@ -4,6 +4,9 @@ import { OrderService } from '../services/order.service';
 import { CartItem } from '../services/cart.service';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-place-order',
@@ -26,11 +29,16 @@ export class PlaceOrderComponent implements OnInit {
 
   @ViewChild('modalClose') modalClose!: ElementRef<HTMLButtonElement>;
 
+  // new flags
+  isAuthenticated = false;
+  loadingProfile = true;
+
   constructor(
     private order: OrderService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -38,6 +46,28 @@ export class PlaceOrderComponent implements OnInit {
     if (!this.items.length) {
       // optionally redirect or show message
     }
+
+    // try load authenticated user's profile (graceful fallback for guests)
+    this.fetchProfile();
+  }
+
+  private fetchProfile() {
+    this.loadingProfile = true;
+    this.userService.getProfile().subscribe(
+      (res: UserProfile) => {
+        const fullName = [res.firstName, res.lastName].filter(Boolean).join(' ').trim();
+        if (fullName) this.name = fullName;
+        if (res.address) this.address = res.address;
+        if (res.phone) this.phone = res.phone;
+        this.isAuthenticated = true;
+        this.loadingProfile = false;
+      },
+      () => {
+        // if not authenticated or other error, allow guest input
+        this.isAuthenticated = false;
+        this.loadingProfile = false;
+      }
+    );
   }
 
   close() {
@@ -94,4 +124,13 @@ export class PlaceOrderComponent implements OnInit {
     this.showSuccessModal = false;
     this.router.navigate(['/products']);
   }
+}
+
+interface UserProfile {
+  id: number;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  address?: string;
+  phone?: string;
 }

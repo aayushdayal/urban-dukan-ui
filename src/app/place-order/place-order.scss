@@ -168,3 +168,43 @@
 .btn:active {
   transform: translateY(1px);
 }
+
+/* readonly field uses same visual language as inputs used in app */
+.readonly-field {
+  margin-top: 6px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e6f0ff;
+  background: #fbfdff;
+  color: #0b3d91;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  white-space: pre-wrap;
+}
+
+/* keep focus styles consistent for keyboard users when element is interactive */
+.readonly-field:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99,164,255,0.12);
+}
+
+/* plain text for fields (no box) */
+.field-text {
+  margin-top: 6px;
+  display: block;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #0b3d91; /* keep app color language */
+  font-weight: 600;
+  line-height: 1.45;
+  min-height: initial;
+  white-space: pre-wrap;
+}
+
+/* keep focus styles for accessibility when needed (no visible box) */
+.field-text:focus {
+  outline: none;
+  box-shadow: none;
+}

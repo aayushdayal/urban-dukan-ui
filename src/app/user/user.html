@@ -1,0 +1,43 @@
+<div class="user-page">
+  <h2>My Profile</h2>
+
+  <div *ngIf="loading">Loading…</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <div *ngIf="message" class="message">{{ message }}</div>
+
+  <div *ngIf="!loading">
+    <div class="profile-row"><label>Email</label><div>{{ profile.email }}</div></div>
+
+    <div *ngIf="!editing">
+      <div class="profile-row"><label>First name</label><div>{{ profile.firstName || '—' }}</div></div>
+      <div class="profile-row"><label>Last name</label><div>{{ profile.lastName || '—' }}</div></div>
+      <div class="profile-row"><label>Address</label><div>{{ profile.address || '—' }}</div></div>
+      <div class="profile-row"><label>Phone</label><div>{{ profile.phone || '—' }}</div></div>
+      <div class="profile-row"><label>Roles</label><div>{{ profile.roles?.join(', ') || '—' }}</div></div>
+
+      <div class="actions">
+        <button (click)="startEdit()">Edit</button>
+      </div>
+    </div>
+
+    <form *ngIf="editing" (ngSubmit)="save()">
+      <label>First name
+        <input [(ngModel)]="editModel.firstName" name="firstName" />
+      </label>
+      <label>Last name
+        <input [(ngModel)]="editModel.lastName" name="lastName" />
+      </label>
+      <label>Address
+        <textarea [(ngModel)]="editModel.address" name="address"></textarea>
+      </label>
+      <label>Phone
+        <input [(ngModel)]="editModel.phone" name="phone" />
+      </label>
+
+      <div class="actions">
+        <button type="button" (click)="cancelEdit()">Cancel</button>
+        <button type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

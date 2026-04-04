@@ -203,6 +203,28 @@
   background: rgba(255,255,255,0.08);
   padding: 6px 10px;
   border-radius: 20px;
+
+  .user-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 4px;
+    transition: background 0.15s, transform 0.08s;
+  }
+
+  .user-icon svg { display: block; fill: #fff; }
+
+  .user-icon:hover {
+    background: rgba(255,255,255,0.14);
+    transform: translateY(-2px);
+  }
 }
 
 .user-email {

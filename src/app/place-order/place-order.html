@@ -20,17 +20,44 @@
 
   <form class="ship-form" (ngSubmit)="placeOrder()">
     <h3>Ship to</h3>
+
+    <!-- Name -->
     <label>
       Name
-      <input [(ngModel)]="name" name="name" required />
+      <ng-container *ngIf="loadingProfile; else nameField">
+        <div class="field-text">Loading...</div>
+      </ng-container>
+      <ng-template #nameField>
+        <div class="field-text" aria-live="polite">
+          {{ name || (isAuthenticated ? '—' : 'Not provided. Sign in to autofill') }}
+        </div>
+      </ng-template>
     </label>
+
+    <!-- Address -->
     <label>
       Address
-      <textarea rows="3" [(ngModel)]="address" name="address" required></textarea>
+      <ng-container *ngIf="loadingProfile; else addrField">
+        <div class="field-text">Loading...</div>
+      </ng-container>
+      <ng-template #addrField>
+        <div class="field-text">
+          {{ address || (isAuthenticated ? '—' : 'Not provided. Sign in to autofill') }}
+        </div>
+      </ng-template>
     </label>
+
+    <!-- Phone -->
     <label>
       Phone
-      <input [(ngModel)]="phone" name="phone" />
+      <ng-container *ngIf="loadingProfile; else phoneField">
+        <div class="field-text">Loading...</div>
+      </ng-container>
+      <ng-template #phoneField>
+        <div class="field-text">
+          {{ phone || (isAuthenticated ? '—' : 'Not provided. Sign in to autofill') }}
+        </div>
+      </ng-template>
     </label>
 
     <div class="actions">

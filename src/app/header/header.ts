@@ -35,6 +35,11 @@ export class HeaderComponent implements OnDestroy {
     this.router.navigate(['/cart']);
   }
 
+  // navigate to orders page (visible only when logged in)
+  goToOrders() {
+    this.router.navigate(['/orders']);
+  }
+
   // functions used by template (keep them for direct header clicks)
   openLogin() { this.authModal.openLogin(); }
   openSignup() { this.authModal.openSignup(); }
@@ -55,6 +60,11 @@ export class HeaderComponent implements OnDestroy {
     try { localStorage.removeItem('token'); } catch { /* ignore */ }
     if ((this.auth as any).logout) { (this.auth as any).logout(); }
     this.router.navigate(['/']);
+  }
+
+  // new: navigate to profile page
+  goToProfile() {
+    this.router.navigate(['/profile']);
   }
 
   ngOnDestroy(): void {

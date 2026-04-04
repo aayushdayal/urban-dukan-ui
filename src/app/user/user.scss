@@ -1,0 +1,26 @@
+.user-page {
+  max-width: 720px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 1.25rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(25,118,210,0.06);
+
+  h2 { color: #1976d2; margin-bottom: 1rem; }
+
+  .profile-row { display:flex; gap:1rem; padding: 0.4rem 0;
+    label { width: 120px; font-weight:600; color:#0b3d91; }
+    div { flex:1; color:#333; }
+  }
+
+  label { display:block; margin:0.5rem 0; font-weight:600; color:#0b3d91; }
+  input, textarea { width:100%; padding:8px; border-radius:6px; border:1px solid #e6f0ff; }
+
+  .actions { margin-top:1rem; display:flex; gap:0.6rem; }
+  button { padding:0.6rem 1rem; border-radius:8px; border:none; cursor:pointer; }
+  button[type="submit"], .actions button:nth-child(2) { background: linear-gradient(90deg,#1976d2,#26c6da); color:#fff; }
+  .actions button[type="button"], .actions button:nth-child(1) { background:transparent; border:1px solid #1976d2; color:#1976d2; }
+
+  .error { color:#d32f2f; margin-top:0.6rem; }
+  .message { color:#207544; margin-top:0.6rem; }
+}
