@@ -1,0 +1,28 @@
+<div class="order-detail-page">
+  <button class="back" (click)="back()">← Back</button>
+
+  <div *ngIf="loading" class="loading">Loading order…</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="order" class="order-card">
+    <h3>Order: {{ order.orderId }}</h3>
+    <div class="meta">
+      <div>Placed: {{ order.createdAt | date:'medium' }}</div>
+    </div>
+
+    <div class="items">
+      <div class="item" *ngFor="let it of order.items">
+        <img *ngIf="it.thumbnail" [src]="it.thumbnail" [alt]="it.title || 'Product image'" class="thumb"/>
+        <div class="title">{{ it.title || ('Product #' + it.productId) }}</div>
+        <div class="qty">x{{ it.quantity }}</div>
+        <div class="price">₹{{ it.unitPrice | number:'1.2-2' }}</div>
+        <div class="line-total">₹{{ (it.totalPrice ?? it.unitPrice * it.quantity) | number:'1.2-2' }}</div>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div class="shipping">Shipping: {{ order.shippingAddress || '—' }}</div>
+      <div class="total">Total: ₹{{ order.totalAmount | number:'1.2-2' }}</div>
+    </div>
+  </div>
+</div>
