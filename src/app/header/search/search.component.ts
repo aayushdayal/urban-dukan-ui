@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -27,7 +27,8 @@ export class SearchComponent implements OnDestroy {
     private searchService: SearchService,
     private router: Router,
     private host: ElementRef,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef
   ) {}
 
   onInput() {
@@ -57,11 +58,13 @@ export class SearchComponent implements OnDestroy {
         this.suggestions = Array.isArray(res) ? res : [];
         this.showDropdown = !!this.suggestions.length;
         this.loading = false;
+        this.cdr.detectChanges(); // ensure dropdown updates after async response
       },
       error: () => {
         this.suggestions = [];
         this.showDropdown = false;
         this.loading = false;
+         this.cdr.detectChanges()
       }
     });
   }

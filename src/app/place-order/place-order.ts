@@ -61,6 +61,7 @@ export class PlaceOrderComponent implements OnInit {
         if (res.phone) this.phone = res.phone;
         this.isAuthenticated = true;
         this.loadingProfile = false;
+         this.cdr.detectChanges();
       },
       () => {
         // if not authenticated or other error, allow guest input

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -28,7 +28,8 @@ export class Login {
     private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private modal: AuthModalService
+    private modal: AuthModalService,
+    private cdr: ChangeDetectorRef
   ) {
     this.route.queryParams.subscribe(params => {
       this.returnUrl = params['returnUrl'] || this.returnUrl;
@@ -49,6 +50,7 @@ export class Login {
         this.auth.setSession(res.token, res.email, res.userId);
         this.success = 'Login successful!';
         // close modal if opened via service
+        this.cdr.detectChanges(); // ensure success message shows before navigation
         this.modal.close();
         this.router.navigateByUrl(this.returnUrl);
       },
