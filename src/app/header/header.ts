@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { RouterModule, Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { AuthModalService } from '../services/auth-modal.service';
@@ -28,6 +28,11 @@ export class HeaderComponent implements OnDestroy {
       this.showLoginModal = type === 'login';
       this.showSignupModal = type === 'signup';
     });
+  }
+
+  // navigate to cart page
+  goToCart() {
+    this.router.navigate(['/cart']);
   }
 
   // functions used by template (keep them for direct header clicks)

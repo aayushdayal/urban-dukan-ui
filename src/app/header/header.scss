@@ -40,10 +40,9 @@
 }
 
 .nav-right {
-  flex: 0 0 auto;
   display: flex;
-  gap: 0.5rem;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .nav-btn {
@@ -61,6 +60,32 @@
 .nav-btn:hover {
   background: #ffe082;
   color: #1976d2;
+}
+
+.nav-btn.cart-btn {
+  background: transparent;
+  border: none;
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 120ms ease;
+  /* keep visual spacing so it's left of the login area */
+  margin-right: 0.25rem;
+}
+
+.nav-btn.cart-btn:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.nav-btn.cart-btn .icon,
+.nav-btn.cart-btn svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  fill: #fff; /* ensure icon is white */
 }
 
 .user-dropdown {

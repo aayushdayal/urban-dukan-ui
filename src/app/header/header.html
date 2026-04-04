@@ -9,6 +9,24 @@
   </div>
 
   <div class="nav-right">
+    <!-- Cart button: placed to the left of login/logout -->
+    <button
+      class="nav-btn cart-btn"
+      *ngIf="auth.isLoggedIn()"
+      (click)="goToCart()"
+      aria-label="Open cart"
+      title="Cart"
+    >
+      <!-- Option A: modern outline cart (default) -->
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+          d="M6 6h15l-1.5 9h-11L4 3H2" />
+        <circle cx="9" cy="20" r="1.5" fill="#fff"></circle>
+        <circle cx="18" cy="20" r="1.5" fill="#fff"></circle>
+      </svg>
+
+    </button>
+
     <ng-container *ngIf="!auth.isLoggedIn(); else loggedIn">
       <button class="nav-btn" (click)="openLogin()">Login</button>
       <button class="nav-btn" (click)="openSignup()">Sign Up</button>
