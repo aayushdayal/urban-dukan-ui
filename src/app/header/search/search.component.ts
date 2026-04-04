@@ -114,8 +114,39 @@ export class SearchComponent implements OnDestroy {
   selectSuggestion(text: string) {
     this.query = text;
     this.closeDropdown();
-    // Trigger full search automatically
-    this.triggerSearch();
+
+    // perform search and open the first matching product if available
+    this.cancelLastRequest();
+    this.loading = true;
+    this.lastRequestSub = this.searchService.search(text).subscribe({
+      next: (res) => {
+        this.loading = false;
+
+        // support multiple shapes: array, { products: [...] }, { results: [...] }
+        let products: any[] = [];
+        if (Array.isArray(res)) products = res;
+        else if (Array.isArray(res?.products)) products = res.products;
+        else if (Array.isArray(res?.results)) products = res.results;
+        else if (Array.isArray(res?.value)) products = res.value;
+
+        const first = products && products.length ? products[0] : null;
+
+        // prefer id or productId fields
+        const id = first ? (first.id ?? first.productId ?? first.key ?? null) : null;
+
+        if (id != null) {
+          // navigate to product detail
+          this.router.navigate(['/products', id]);
+        } else {
+          // fallback: navigate to products list with query param
+          this.router.navigate(['/products'], { queryParams: { query: text } });
+        }
+      },
+      error: () => {
+        this.loading = false;
+        this.router.navigate(['/products'], { queryParams: { query: text } });
+      }
+    });
   }
 
   triggerSearch() {
@@ -127,7 +158,7 @@ export class SearchComponent implements OnDestroy {
     this.lastRequestSub = this.searchService.search(q).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/products'], { queryParams: { query: q } });
+       // this.router.navigate(['/products'], { queryParams: { query: q } });
       },
       error: () => {
         this.loading = false;

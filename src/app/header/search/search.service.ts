@@ -15,7 +15,7 @@ export class SearchService {
   }
 
   search(query: string): Observable<any> {
-    const params = new HttpParams().set('query', query);
+    const params = new HttpParams().set('q', query);
     return this.http.get<any>(`${this.base}/search`, { params });
   }
 }
