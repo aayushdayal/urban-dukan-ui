@@ -9,6 +9,13 @@ export const serverRoutes: ServerRoute[] = [
       return ids.map(id => ({ id: id.toString() }));
     }
   },
+
+  // Render orders/:id on the server at request time (avoids needing prerender params)
+  {
+    path: 'orders/:id',
+    renderMode: RenderMode.Server
+  },
+
   {
     path: '**',
     renderMode: RenderMode.Prerender
