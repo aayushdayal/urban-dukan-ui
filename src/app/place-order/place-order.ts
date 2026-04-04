@@ -34,8 +34,8 @@ export class PlaceOrderComponent implements OnInit {
   loadingProfile = true;
 
   constructor(
+    public router: Router, // changed from private -> public so template can navigate
     private order: OrderService,
-    private router: Router,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
     private userService: UserService

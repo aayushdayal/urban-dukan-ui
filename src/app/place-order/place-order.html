@@ -21,6 +21,14 @@
   <form class="ship-form" (ngSubmit)="placeOrder()">
     <h3>Ship to</h3>
 
+    <!-- Add a small link to change details and go to profile -->
+    <div style="margin-bottom:0.5rem; font-size:0.95rem;">
+      Need to change your name, address or phone? 
+      <a role="link" (click)="router.navigate(['/profile'])" style="color:#1976d2; cursor:pointer; text-decoration:underline;">
+        Change details
+      </a>
+    </div>
+
     <!-- Name -->
     <label>
       Name
