@@ -81,3 +81,90 @@
     .msg { margin-top:0.6rem; color:#0b3d91; background:#e3f2fd; padding:0.5rem 0.8rem; border-radius:6px; }
   }
 }
+
+/* Modal styles matching app design (same style used in signup/login) */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 999;
+}
+
+.modal-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 10px 40px rgba(8, 30, 76, 0.2);
+  padding: 1.25rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.modal-content {
+  padding-top: 0.5rem;
+  text-align: center;
+}
+
+.modal-content h3 {
+  margin: 0 0 0.5rem 0;
+  color: #1976d2;
+}
+
+.modal-content p {
+  margin: 0.35rem 0;
+  color: #333;
+}
+
+.modal-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
+  color: #fff;
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #f0f6ff;
+  color: #1976d2;
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}

@@ -40,3 +40,19 @@
     <div class="msg" *ngIf="message">{{ message }}</div>
   </form>
 </div>
+
+<!-- Success Modal -->
+<div class="modal-overlay" *ngIf="showSuccessModal" (click)="closeSuccessModal()"></div>
+
+<div class="modal-popup" *ngIf="showSuccessModal" (click)="$event.stopPropagation()">
+  <!-- add template ref so component can set focus -->
+  <button type="button" class="modal-close" #modalClose (click)="closeSuccessModal()">&times;</button>
+  <div class="modal-content">
+    <h3>Order Confirmed</h3>
+    <p>Your order has been successfully generated.</p>
+    <p><strong>Order id - {{ orderId }}</strong></p>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-primary" (click)="closeSuccessModal()">Close</button>
+    </div>
+  </div>
+</div>
