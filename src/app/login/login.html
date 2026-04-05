@@ -3,8 +3,9 @@
   <form class="auth-form" (ngSubmit)="login()" #loginForm="ngForm">
     <h2>Login</h2>
     <!-- Success and Error Messages -->
-    <div *ngIf="success" class="alert alert-success" role="alert">{{ success }}</div>
-    <div *ngIf="error" class="alert alert-danger" role="alert">{{ error }}</div>
+     <!-- <div *ngIf="showMessage">Check</div> -->
+    <div *ngIf="showSuccessMessage" class="alert alert-success" role="alert">{{ success }}</div>
+    <div *ngIf="showErrorMessage" class="alert alert-danger" role="alert">{{ error }}</div>
     <div class="form-group">
       <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required>
     </div>

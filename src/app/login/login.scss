@@ -68,3 +68,28 @@
 .signup-link a:hover {
   color: #06326b;
 }
+
+/* Login heading color */
+.modal-popup h2 {
+  color: #072a5f; /* dark-blue heading for contrast */
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+}
+
+/* Success / error message styles (avoid white text) */
+.alert.alert-success {
+  background-color: #d4edda;
+  color: #155724; /* dark green text */
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.alert.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24; /* dark red text */
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+}

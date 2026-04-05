@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, NgZone } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -22,14 +22,17 @@ export class Login {
   success: string = '';
   error: string = '';
   returnUrl: string = '/';
-
+showSuccessMessage = false;
+showErrorMessage = false;
+showMessage = false;
   constructor(
     private userService: UserService,
     private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
     private modal: AuthModalService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {
     this.route.queryParams.subscribe(params => {
       this.returnUrl = params['returnUrl'] || this.returnUrl;
@@ -48,14 +51,26 @@ export class Login {
     this.userService.login(credentials).subscribe({
       next: (res) => {
         this.auth.setSession(res.token, res.email, res.userId);
-        this.success = 'Login successful!';
-        // close modal if opened via service
-        this.cdr.detectChanges(); // ensure success message shows before navigation
+
+        // ensure immediate UI update
+        this.ngZone.run(() => {
+          this.success = 'Login successful!';
+          this.showSuccessMessage = true;
+          this.showErrorMessage = false;
+          this.cdr.detectChanges();
+        });
+
+        // close modal / navigate (still immediate)
         this.modal.close();
         this.router.navigateByUrl(this.returnUrl);
       },
       error: (err) => {
-        this.error = err.error?.message || 'Login failed. Please check your credentials.';
+        this.ngZone.run(() => {
+          this.error = err.error?.message || 'Login failed. Please check your credentials.';
+          this.showErrorMessage = true;
+          this.showSuccessMessage = false;
+          this.cdr.detectChanges();
+        });
       }
     });
   }
