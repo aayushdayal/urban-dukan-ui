@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
-import { SearchService } from './search.service';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-search',
