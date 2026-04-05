@@ -4,6 +4,7 @@ import { LandingComponent } from './landing/landing';
 import { HeaderComponent } from "./header/header";
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
+import { SignalRService } from './services/signalr.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,18 @@ import { AuthInterceptor } from '../interceptors/auth.interceptor';
 })
 export class App {
   protected readonly title = signal('urban-dukan-ui');
-  constructor() {
-    console.log('[App] App component instantiated');
+ constructor(private signalRService: SignalRService) {}
+
+  ngOnInit(): void {
+   // alert(`Order $ placed successfully`);
+    this.signalRService.startConnection();
+
+    this.signalRService.onNotification((data) => {
+      console.log('Notification received:', data);
+
+      alert(`Message received from Azure service bus for Order ${data.orderId} being placed successfully`);
+    });
+   // alert(`Order $dkashdjcessfully`);
+
   }
 }
