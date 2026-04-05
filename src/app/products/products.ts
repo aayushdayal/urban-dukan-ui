@@ -4,11 +4,12 @@ import { ProductService } from '../services/product.service';
 import { Product, ProductsResponse } from '../models/product.model';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { CartService } from '../services/cart.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ProductCardComponent } from "./productCard/productcard";
 import { AuthService } from '../services/auth.service';
 import { AuthModalService } from '../services/auth-modal.service'; // added
 import { OrderService } from '../services/order.service';
+import { SearchService } from '../services/search.service'; // NEW
 
 @Component({
   selector: 'app-products',
@@ -26,17 +27,81 @@ export class ProductsComponent implements OnInit {
   allLoaded = false;
   scrollTargetId: string | null = null;
 
+  // search state
+  searchQuery: string | null = null;
+  searchMode = false;
+
   constructor(
     private productService: ProductService,
     private cartService: CartService,
     private router: Router,
+    private route: ActivatedRoute, // NEW
     private cdr: ChangeDetectorRef,
     private auth: AuthService,
-    private authModal: AuthModalService, // added
-    private orderService: OrderService
+    private authModal: AuthModalService,
+    private orderService: OrderService,
+    private searchService: SearchService // NEW
   ) {}
 
   ngOnInit() {
+    // subscribe to query params to support search results
+    this.route.queryParams.subscribe(params => {
+      const q = (params['query'] || '').toString().trim();
+      if (q) {
+        // enter search mode
+        this.searchQuery = q;
+        this.searchMode = true;
+        this.performSearch(q);
+      } else if (this.searchMode) {
+        // search cleared -> reset and reload normal product listing
+        this.searchQuery = null;
+        this.searchMode = false;
+        this.resetAndLoadProducts();
+      } else {
+        // normal initial load (no query)
+        this.loadProducts();
+      }
+    });
+  }
+
+  private performSearch(q: string) {
+    this.loading = true;
+    this.error = '';
+    this.searchService.search(q).subscribe({
+      next: (res) => {
+        // normalize product list shapes (supports array or wrapper shapes)
+        let products: Product[] = [];
+        if (Array.isArray(res)) products = res;
+        else if (Array.isArray(res?.products)) products = res.products;
+        else if (Array.isArray(res?.results)) products = res.results;
+        else if (Array.isArray(res?.value)) products = res.value;
+        // set results
+        this.products = products as Product[];
+        this.total = this.products.length || 0;
+        this.loading = false;
+        this.allLoaded = true; // don't infinite-load when showing results
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.error = 'Failed to load search results.';
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  clearSearch() {
+    // navigate to the products route without query param -> triggers reset with subscription above
+    this.router.navigate(['/products']);
+  }
+
+  private resetAndLoadProducts() {
+    this.products = [];
+    this.total = 0;
+    this.skip = 0;
+    this.limit = 30;
+    this.allLoaded = false;
+    this.error = '';
     this.loadProducts();
   }
 

@@ -155,19 +155,10 @@ export class SearchComponent implements OnDestroy {
   triggerSearch() {
     const q = this.query.trim();
     if (!q) return;
-    // Call search endpoint (as required) then navigate to results (e.g. products route with query param)
+    // navigate to products page and let ProductsComponent perform the search and show results
     this.cancelLastRequest();
-    this.loading = true;
-    this.lastRequestSub = this.searchService.search(q).subscribe({
-      next: () => {
-        this.loading = false;
-       // this.router.navigate(['/products'], { queryParams: { query: q } });
-      },
-      error: () => {
-        this.loading = false;
-        this.router.navigate(['/products'], { queryParams: { query: q } });
-      }
-    });
+    this.loading = false;
+    this.router.navigate(['/products'], { queryParams: { query: q } });
   }
 
   clear() {

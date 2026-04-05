@@ -1,5 +1,12 @@
 <div class="products-container">
   <h2>Products ({{ total }})</h2>
+
+  <!-- Search results banner -->
+  <div *ngIf="searchQuery" class="search-result-banner">
+    <div>Showing results for - <b>"{{ searchQuery }}" </b> .</div>
+    <button aria-label="Close search results" (click)="clearSearch()" style="background:transparent;border:none;font-size:1.2rem;cursor:pointer;">&times;</button>
+  </div>
+
   <div *ngIf="error" class="error">{{ error }}</div>
   <div class="products-grid">
     <app-product-card
