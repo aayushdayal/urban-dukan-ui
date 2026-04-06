@@ -194,6 +194,119 @@ $error: #d32f2f;
   color: #d32f2f;
 }
 
+/* non-white Create account label (minimal addition) */
+.create-account-label {
+  color: #072a5f; /* dark-blue for contrast */
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+}
+
+/* Make Create account heading readable like Login */
+.create-account-label,
+.modal-popup h2 {
+  color: #072a5f;
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+}
+
+/* Alerts: readable text on light backgrounds (same as login) */
+.alert.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.alert.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Make signup submit button match login button */
+.auth-form button[type="submit"] {
+  background: linear-gradient(90deg, #1976d2 60%, #26c6da 100%);
+  color: #fff;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
+.auth-form button[type="submit"]:hover:not(:disabled) {
+  background: linear-gradient(90deg, #63a4ff 60%, #26c6da 100%);
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.13);
+}
+.auth-form button[disabled] {
+  opacity: 0.7;
+  cursor: default;
+}
+
+/* Spinner for button (same as login) */
+.btn-loader {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.45);
+  border-top-color: #fff;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-left: 0.5rem;
+  animation: spin 0.85s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Optional: dim form while loading */
+.auth-form[aria-busy="true"] {
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* inline first + last name row */
+.name-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.name-row label {
+  flex: 1 1 0;
+}
+.name-row input {
+  width: 100%;
+  box-sizing: border-box;
+  /* match existing input styles (minimal duplication) */
+  padding: 0.8rem;
+  border: 1.5px solid #b3c6e7;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #f7fbff;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.name-row input:focus {
+  border: 1.5px solid #1976d2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.10);
+}
+
+/* stack on small screens */
+@media (max-width: 480px) {
+  .name-row {
+    flex-direction: column;
+  }
+}
+
 // Responsive adjustments for smaller screens
 @media (max-width: 600px) {
   .auth-container {

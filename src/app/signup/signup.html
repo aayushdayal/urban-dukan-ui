@@ -1,13 +1,21 @@
 <div class="modal-popup">
   <button type="button" class="modal-close" (click)="$event.stopPropagation(); closeModal && closeModal()">&times;</button>
-  <form class="auth-form" (ngSubmit)="signup()" #signupForm="ngForm">
-    <h2>Create Account</h2>
+  <form class="auth-form" (ngSubmit)="signup()" #signupForm="ngForm" [attr.aria-busy]="loading">
+    <h2 class="create-account-label">Create account</h2>
+
     <!-- Success and Error Messages -->
-    <div *ngIf="success" class="alert alert-success" role="alert">{{ success }}</div>
-    <div *ngIf="error" class="alert alert-danger" role="alert">{{ error }}</div>
+    <div *ngIf="success" class="alert alert-success" role="alert" aria-live="polite">{{ success }}</div>
+    <div *ngIf="error" class="alert alert-danger" role="alert" aria-live="polite">{{ error }}</div>
     <div class="form-group">
-      <input type="text" name="firstName" [(ngModel)]="firstName" placeholder="First Name" required>
-      <input type="text" name="lastName" [(ngModel)]="lastName" placeholder="Last Name" required>
+      <!-- Name fields: first + last inline -->
+      <div class="name-row">
+        <label>
+          <input type="text" name="firstName" [(ngModel)]="firstName" placeholder="First name" required>
+        </label>
+        <label>
+          <input type="text" name="lastName" [(ngModel)]="lastName" placeholder="Last name" required>
+        </label>
+      </div>
     </div>
     <div class="form-group">
       <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required>
@@ -25,7 +33,11 @@
       <label><input type="radio" name="userType" [(ngModel)]="userType" value="Buyer" required> Buyer</label>
       <label><input type="radio" name="userType" [(ngModel)]="userType" value="Seller" required> Seller</label>
     </div>
-    <button type="submit">Sign Up</button>
+    <button type="submit" [disabled]="loading">
+      <span *ngIf="!loading">Create account</span>
+      <span *ngIf="loading" class="btn-loader" aria-hidden="true"></span>
+      <span *ngIf="loading" class="visually-hidden">Creating account...</span>
+    </button>
     <div class="signup-link">
       Already have an account? <a (click)="showLogin()">Login</a>
     </div>
