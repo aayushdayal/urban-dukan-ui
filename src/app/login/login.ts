@@ -22,9 +22,13 @@ export class Login {
   success: string = '';
   error: string = '';
   returnUrl: string = '/';
-showSuccessMessage = false;
-showErrorMessage = false;
-showMessage = false;
+  showSuccessMessage = false;
+  showErrorMessage = false;
+  showMessage = false;
+
+  // new loading flag
+  loading = false;
+
   constructor(
     private userService: UserService,
     private auth: AuthService,
@@ -45,28 +49,40 @@ showMessage = false;
   }
 
   login() {
+    // start loading and clear previous messages
+    this.loading = true;
     this.success = '';
     this.error = '';
+    this.showSuccessMessage = false;
+    this.showErrorMessage = false;
+
     const credentials = { email: this.email, password: this.password };
     this.userService.login(credentials).subscribe({
       next: (res) => {
         this.auth.setSession(res.token, res.email, res.userId);
 
-        // ensure immediate UI update
+        // update UI immediately: stop loader and show success
         this.ngZone.run(() => {
+          this.loading = false;
           this.success = 'Login successful!';
           this.showSuccessMessage = true;
           this.showErrorMessage = false;
           this.cdr.detectChanges();
         });
 
-        // close modal / navigate (still immediate)
-        this.modal.close();
-        this.router.navigateByUrl(this.returnUrl);
+        // allow message to render briefly, then close modal / navigate
+        setTimeout(() => {
+          this.ngZone.run(() => {
+            this.modal.close();
+            this.router.navigateByUrl(this.returnUrl);
+          });
+        }, 600);
       },
       error: (err) => {
+        const msg = err?.error?.message || 'Login failed. Please check your credentials.';
         this.ngZone.run(() => {
-          this.error = err.error?.message || 'Login failed. Please check your credentials.';
+          this.loading = false;
+          this.error = msg;
           this.showErrorMessage = true;
           this.showSuccessMessage = false;
           this.cdr.detectChanges();

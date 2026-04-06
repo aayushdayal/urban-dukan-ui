@@ -2,17 +2,24 @@
   <button type="button" class="modal-close" (click)="$event.stopPropagation(); closeModal && closeModal()">&times;</button>
   <form class="auth-form" (ngSubmit)="login()" #loginForm="ngForm">
     <h2>Login</h2>
+
     <!-- Success and Error Messages -->
-     <!-- <div *ngIf="showMessage">Check</div> -->
-    <div *ngIf="showSuccessMessage" class="alert alert-success" role="alert">{{ success }}</div>
-    <div *ngIf="showErrorMessage" class="alert alert-danger" role="alert">{{ error }}</div>
+    <div *ngIf="showSuccessMessage" class="alert alert-success" role="alert" aria-live="polite">{{ success }}</div>
+    <div *ngIf="showErrorMessage" class="alert alert-danger" role="alert" aria-live="polite">{{ error }}</div>
+
     <div class="form-group">
       <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required>
     </div>
     <div class="form-group">
       <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
     </div>
-    <button type="submit">Login</button>
+
+    <!-- submit shows spinner while loading -->
+    <button type="submit" [disabled]="loading">
+      <span *ngIf="!loading">Login</span>
+      <span *ngIf="loading" class="btn-loader" aria-hidden="true"></span>
+      <span *ngIf="loading" class="visually-hidden">Logging in...</span>
+    </button>
     <div class="signup-link">
       New here? <a (click)="showSignup()">Sign up</a>
     </div>
