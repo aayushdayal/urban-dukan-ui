@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { CartService, CartItem } from '../services/cart.service';
@@ -16,21 +16,29 @@ export class CartComponent implements OnInit {
   items: CartItem[] = [];
   message = '';
 
+  // new flag
+  loading = false;
+
   constructor(
     private cartService: CartService,
     private auth: AuthService,
     private authModal: AuthModalService,
     private router: Router,
     private orderService: OrderService,
-    private cdr: ChangeDetectorRef // added
+    private cdr: ChangeDetectorRef, // added
+    private ngZone: NgZone // added
   ) {}
 
   ngOnInit() {
     // If logged in try to sync from server and then load local cache
     if (this.auth.isLoggedIn()) {
+      this.ngZone.run(() => {
+        this.loading = true;
+        try { this.cdr.detectChanges(); } catch {}
+      });
       this.cartService.syncWithServer().subscribe({
-        next: () => this.load(),
-        error: () => this.load()
+        next: () => this.ngZone.run(() => { this.loading = false; this.load(); }),
+        error: () => this.ngZone.run(() => { this.loading = false; this.load(); })
       });
     } else {
       this.load();
@@ -57,9 +65,19 @@ export class CartComponent implements OnInit {
 
   remove(item: CartItem) {
     if (this.auth.isLoggedIn()) {
+      this.ngZone.run(() => {
+        this.loading = true;
+        try { this.cdr.detectChanges(); } catch {}
+      });
       this.cartService.removeItem(item.product.id).subscribe({
-        next: () => this.load(),
-        error: () => this.load()
+        next: () => this.ngZone.run(() => {
+          this.loading = false;
+          this.load();
+        }),
+        error: () => this.ngZone.run(() => {
+          this.loading = false;
+          this.load();
+        })
       });
     } else {
       this.items = this.items.filter(i => i !== item);
@@ -77,29 +95,50 @@ export class CartComponent implements OnInit {
     if (this.auth.isLoggedIn()) {
       const ops = this.items.map(it => this.cartService.updateItem(it.product.id, it.quantity));
       let remaining = ops.length;
-      if (!remaining) {
-        this.message = 'Cart updated';
+
+      this.ngZone.run(() => {
+        this.loading = true;
         try { this.cdr.detectChanges(); } catch {}
+      });
+
+      if (!remaining) {
+        // no remote ops — stop loader and keep existing message behavior
+        this.ngZone.run(() => {
+          this.loading = false;
+          this.message = 'Cart updated';
+          try { this.cdr.detectChanges(); } catch {}
+        });
         setTimeout(() => { this.message = ''; try { this.cdr.detectChanges(); } catch {} }, 1600);
         return;
       }
+
       ops.forEach(obs =>
         obs.subscribe({
           next: () => {
             remaining--;
             if (remaining === 0) {
+              // stop loader as soon as all update responses arrived and show message (same behavior as before)
+              this.ngZone.run(() => {
+                this.loading = false;
+                this.message = 'Cart updated';
+                try { this.cdr.detectChanges(); } catch {}
+              });
+
+              // keep existing sync call (unchanged)
               this.cartService.syncWithServer().subscribe({ next: () => this.load(), error: () => this.load() });
-              this.message = 'Cart updated';
-              try { this.cdr.detectChanges(); } catch {}
+
               setTimeout(() => { this.message = ''; try { this.cdr.detectChanges(); } catch {} }, 1600);
             }
           },
           error: () => {
             remaining--;
             if (remaining === 0) {
+              this.ngZone.run(() => {
+                this.loading = false;
+                this.message = 'Cart updated';
+                try { this.cdr.detectChanges(); } catch {}
+              });
               this.cartService.syncWithServer().subscribe({ next: () => this.load(), error: () => this.load() });
-              this.message = 'Cart updated';
-              try { this.cdr.detectChanges(); } catch {}
               setTimeout(() => { this.message = ''; try { this.cdr.detectChanges(); } catch {} }, 1600);
             }
           }

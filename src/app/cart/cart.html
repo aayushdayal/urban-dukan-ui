@@ -1,4 +1,9 @@
 <div class="cart-container">
+  <!-- loader overlay -->
+  <div class="overlay-loader" *ngIf="loading" aria-hidden="true">
+    <div class="spinner" role="status" aria-label="Loading"></div>
+  </div>
+
   <!-- Close icon follows app design (same placement used in product detail) -->
   <button class="close-btn" (click)="closeCart()" aria-label="Close">&times;</button>
 
